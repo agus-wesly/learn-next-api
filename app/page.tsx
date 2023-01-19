@@ -1,11 +1,19 @@
 import React from "react";
-import Login from "./login";
+import Navbar from "./Navbar";
+import BottomNav from "./BottomNav";
+import Homepage from "./Homepage";
 
 function Page() {
+  // const response = await fetch("http://localhost:3000/api/user");
+  // const { data } = await response.json();
+
   return (
-    <div>
-      <Login />
-    </div>
+    <main className="font-Inter">
+      <h1>Hello World</h1>
+      {/* <Navbar />
+      <Homepage cards={data} />
+      <BottomNav /> */}
+    </main>
   );
 }
 

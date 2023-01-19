@@ -1,21 +1,25 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { jwtVerify } from "jose";
 
-// This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const response = NextResponse.next();
 
   //Check if the cookie is available
-  const cookie = request.cookies.get("auth");
+  const token = request.cookies.get("auth")?.value;
 
-  if (!cookie) return NextResponse.redirect(new URL("/", request.url));
+  if (!token) return NextResponse.redirect(new URL("/auth", request.url));
 
-  return response;
+  //Verify JWT
+  try {
+    await jwtVerify(token, new TextEncoder().encode("dshdshdsh"));
 
-  // return NextResponse.redirect(new URL('/about-2', request.url))
+    return response;
+  } catch (err) {
+    return NextResponse.redirect(new URL("/auth", request.url));
+  }
 }
 
-// See "Matching Paths" below to learn more
 export const config = {
   matcher: ["/admin"],
 };
