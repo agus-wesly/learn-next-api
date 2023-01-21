@@ -6,11 +6,11 @@ function Page() {
   return (
     <section className="flex max-w-[100vw] md:max-w-auto">
       <LeftBanner />
-      <div className="flex-1 hidden md:flex items-center justify-center">
+      <div className="flex-1 hidden md:flex items-center justify-center min-h-screen">
         <Register />
       </div>
       <br />
-      <div className="flex md:hidden w-full ">
+      <div className="flex md:hidden w-full p-10">
         <Register />
       </div>
 

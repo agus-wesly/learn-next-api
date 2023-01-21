@@ -5,7 +5,7 @@ import Card from "./Card";
 
 function Homepage({ cards }: { cards: ICard[] }) {
   return (
-    <main className="p-10 px-5 bg-white max-w-6xl mx-auto space-y-10">
+    <main className="p-10 px-5 bg-white max-w-6xl mx-auto space-y-10 mb-[72px]">
       <div className="flex space-x-5">
         <div className="text-lg relative after:absolute after:left-0 after:-bottom-[2px] font-semibold after:content-[''] after:w-full after:h-[2px] after:bg-violet-900 cursor-pointer text-violet-900">
           Explore

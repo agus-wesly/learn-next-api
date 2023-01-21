@@ -7,6 +7,8 @@ import Image from "next/image";
 
 function Login() {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const [password, setPassword] = useState("");
 
   const router = useRouter();
@@ -14,22 +16,33 @@ function Login() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const resp = await fetch("/api/login", {
-      body: JSON.stringify({ email, password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    });
+    setLoading(true);
 
-    if (!resp.ok) return;
-    console.log("Success");
+    try {
+      const resp = await fetch("http://localhost:3500/api/login", {
+        body: JSON.stringify({ email, password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
 
-    router.replace("/admin");
+      if (!resp.ok) {
+        alert("Failed");
+        return;
+      }
+
+      alert("Success");
+      router.replace("/admin");
+    } catch (error) {
+      console.log("Errorrrr");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="md:max-w-[420px] w-full md:ml-[calc(50%-400px)]">
+    <div className="md:max-w-[420px] md:ml-[400px] w-full ">
       <h1 className="font-bold text-base md:text-lg text-neutral-900 mb-1 md:mb-3">
         Sign In
       </h1>
@@ -51,7 +64,7 @@ function Login() {
           value={email}
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
-          className="bg-neutral-50 border border-gray-200 rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80"
+          className="bg-neutral-50 ring-[1px] ring-gray-200 rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80"
         />{" "}
         <br />
         <div className="flex justify-between items-center mb-1">
@@ -68,7 +81,7 @@ function Login() {
         </div>
         <input
           type="password"
-          className="bg-neutral-50 border border-gray-200 rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80"
+          className="bg-neutral-50 ring-[1px] ring-gray-200 rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80"
           name="password"
           value={password}
           placeholder="Password"
@@ -76,10 +89,28 @@ function Login() {
         />
         <br />
         <button
-          className="flex rounded-full bg-[#6913d8] p-1 md:py-3 justify-center font-semibold md:font-bold text-base md:text-lg text-center hover:bg-neutral-50 hover:text-[#6913d8] transition text-white"
+          disabled={loading}
+          className={`flex rounded-full ${
+            !loading
+              ? "bg-[#6913d8] hover:bg-neutral-50 hover:text-[#6913d8]"
+              : "bg-[#6913d8]/70 cursor-not-allowed"
+          }  p-1 md:py-3 justify-center font-semibold md:font-bold text-base md:text-lg text-center  transition text-white`}
           type="submit"
         >
-          Sign In
+          {loading ? (
+            <div className="flex items-center">
+              <img
+                src="/spinner.svg"
+                alt="spinner"
+                className="w-6 h-6 object-contain mr-2 animate-spin"
+              />
+              <p className="text-neutral-50/80 text-sm font-normal">
+                Loading...
+              </p>
+            </div>
+          ) : (
+            <span>Sign In</span>
+          )}
         </button>
         <button
           className="flex items-center rounded-full bg-white font-semibold md:font-bold text-sm md:text-lg text-center hover:bg-neutral-50 justify-center border border-slate-200 py-1 mt-3 text-neutral-600"

@@ -1,9 +1,7 @@
 import EditForm from "./editForm";
 
 const getSinglePost = async (id: string) => {
-  const resp = await fetch(`http://localhost:3000/api/user/${id}`).then(
-    (resp) => resp.json()
-  );
+  const resp = await fetch(`/api/user/${id}`).then((resp) => resp.json());
   return resp;
 };
 

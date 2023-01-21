@@ -12,7 +12,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
           [name, location, role, salary, image],
           (error, results, fields) => {
             if (error) {
-              console.log(error);
+              console.error(error);
 
               res.status(500).json({ msg: error.message });
               return reject("Server Error");

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Modal from "../components/Modals";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface IProps {
   id: number;
@@ -29,11 +30,13 @@ function Card({ image, name, role, location, salary, id }: IProps) {
   };
 
   const handleDelete = async (id: number) => {
-    const response = await fetch(`http://localhost:3000/api/user/${id}`, {
+    const response = await fetch(`/api/user/${id}`, {
       method: "DELETE",
     });
     if (response.status === 204) {
       alert("Deleted");
+      document.body.classList.remove("overflow-hidden");
+      setShowModal(false);
       router.refresh();
     }
   };
@@ -116,9 +119,12 @@ function Card({ image, name, role, location, salary, id }: IProps) {
           Delete Employee
         </button>
 
-        <button className="py-1 px-4 rounded-full bg-green-100/70 text-green-700 text-[11px] font-medium">
-          Promote
-        </button>
+        <Link
+          href={`/updateUser/${id}`}
+          className="py-1 px-4 rounded-full bg-yellow-100/70 text-yellow-700 text-[11px] font-medium"
+        >
+          Update
+        </Link>
       </div>
     </div>
   );

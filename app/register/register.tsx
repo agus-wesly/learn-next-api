@@ -16,22 +16,27 @@ function Login() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log("Ok");
+    if (password && email && name && confirmPwd && password === confirmPwd) {
+      const resp = await fetch("/api/register", {
+        body: JSON.stringify({ email, password, name }),
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-    // const resp = await fetch("/api/login", {
-    //   body: JSON.stringify({ username, password }),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   method: "POST",
-    // });
-
-    // if (resp.status === 200) router.push("/admin");
+        method: "POST",
+      });
+      if (resp.status === 201) {
+        alert("Sucess");
+        // router.push("/admin");
+      }
+    } else {
+      alert("Please try again");
+    }
   };
 
   return (
-    <div className="md:max-w-[470px] h-[105vh] w-full p-5 md:ml-[calc(100px+50%)] md:mr-auto md:mt-[13%]">
-      <h1 className="font-bold text-lg md:text-lg text-neutral-900 my-5 md:mb-3">
+    <div className="md:max-w-[420px] md:ml-[470px] w-full">
+      <h1 className="font-bold text-lg md:text-lg text-neutral-900 mb-5 md:mb-3">
         Join 93K+ talents securing their <br className="block md:hidden" />{" "}
         dream job
       </h1>
@@ -49,7 +54,7 @@ function Login() {
           placeholder="Enter your full name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="bg-neutral-50 border mb-3 border-gray-200 rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80"
+          className="bg-neutral-50 ring-[1px] ring-gray-200 mb-3 rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80"
         />{" "}
         <label
           className="text-xs md:text-sm text-neutral-600 font-semibold mb-1"
@@ -63,7 +68,7 @@ function Login() {
           value={email}
           placeholder="Email"
           onChange={(e) => setEmail(e.target.value)}
-          className="bg-neutral-50 border border-gray-200 rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80 mb-3"
+          className="bg-neutral-50 ring-[1px] ring-gray-200  rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80 mb-3"
         />{" "}
         <label
           className="text-xs md:text-sm text-neutral-600 font-semibold"
@@ -73,7 +78,7 @@ function Login() {
         </label>
         <input
           type="password"
-          className="bg-neutral-50 border border-gray-200 rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80 mb-3"
+          className="bg-neutral-50 ring-[1px] ring-gray-200  rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80 mb-3"
           name="password"
           placeholder="Password"
           value={password}
@@ -87,7 +92,7 @@ function Login() {
         </label>
         <input
           type="password"
-          className="bg-neutral-50 border border-gray-200 rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80"
+          className="bg-neutral-50 ring-[1px] ring-gray-200  rounded-lg p-2 md:p-3 placeholder:text-gray-300 text-xs md:text-sm focus:border-none placeholder:text-xs md:placeholder:text-sm focus:outline-none focus:ring-[1px] focus:ring-[#6913d8]/80"
           name="password"
           placeholder="Confirm Password"
           value={confirmPwd}
@@ -111,7 +116,7 @@ function Login() {
         </button>
         <button
           className="flex items-center rounded-full bg-white font-semibold md:font-bold text-sm md:text-base text-center hover:bg-neutral-50 justify-center border border-slate-200 mt-3 text-neutral-600"
-          type="submit"
+          // type="submit"
         >
           <span className="md:w-10 w-7 h-7 md:h-10">
             <img
